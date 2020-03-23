@@ -1,6 +1,6 @@
 # Coronavirus Disease (COVID-19) Desktop Notifier
 
-![Corona DesktopBot](https://ibb.co/rySDhXz)
+![Corona DesktopBot](./screenshots/one.png)
 
 ## Features
 
