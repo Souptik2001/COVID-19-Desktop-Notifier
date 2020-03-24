@@ -45,13 +45,25 @@ if __name__ == "__main__":
     t_c=0
     t_d=0
 
+    info_para = soup.find('div', class_="information_row")
+    info_overall = info_para.find_all('div', class_="iblock_text")
+    # info_nums = info_overall.findAll('span', class_="icount")
+    info_nums = []
+    # info_heads =  info_overall.findAll('div', class_="info_label")
+    info_heads =  []
+    for infos in info_overall : 
+      print(infos.find('span', class_="icount").get_text())
+      info_nums.append(infos.find('span', class_="icount").get_text())
+      info_heads.append(infos.find('div', class_="info_label").get_text())
+    # print(info_overall[0])
     table = []
 
     for state in splitted_state:
       temp=[]
       splitted_data = state.split("\n")
       if splitted_data[0] == 'Total number of confirmed cases in India': break
-      print(splitted_data)
+      # print(splitted_data)
+      # print(info_overall[0].get_text().split('\n\n'))
       # print(splitted_data[2])
       temp.append(splitted_data[0])
       temp.append(splitted_data[1])
@@ -74,10 +86,16 @@ if __name__ == "__main__":
     print("\n\n")
     print(tabulate(table, headers=["Sl. No.", "State", "Total Cases (Nationality:Indian)", "Total Cases (Nationality:Foreigner)", "Total Cured", "Total Deaths"]))
     ntitle = "COVID-19 present Status"
-    nmessage = f"Total Cases(Nationality:Indian): {t_i} \n Total Cases(Nationality:Foreigner): {t_f} \n Total Cured: {t_c} \n Total Deaths {t_d}"
+    if t_i > int(info_nums[1]) :
+      nmessage = f"Total Cases(Nationality:Indian): {t_i} \n Total Cases(Nationality:Foreigner): {t_f} \n Total Cured: {t_c} \n Total Deaths {t_d}"
+    else:
+      nmessage = f"Total Cases(Nationality:Indian): {int(info_nums[1])} \n Total Cases(Nationality:Foreigner): {t_f} \n Total Cured: {t_c} \n Total Deaths {t_d}"
     os.system('color E4')
-    print("\n\n")
-    print(f"\t\t\t\t Total Cases ( Nationality : Indian )  :  {t_i} \n\t\t\t\t Total Cases ( Nationality : Foreigner )  :  {t_f} \n\t\t\t\t Total Cured/ Discharged/ Migrated  :  {t_c} \n\t\t\t\t Total Deaths  :  {t_d}")
+    print("\n")
+    if t_i > int(info_nums[1]) :
+      print(f"\t\t\t\t Total case screened at the airport : {info_nums[0]} \n\t\t\t\t Total Cases ( Nationality : Indian )  :  {t_i} \n\t\t\t\t Total Cases ( Nationality : Foreigner )  :  {t_f} \n\t\t\t\t Total Cured/ Discharged/ Migrated  :  {t_c} \n\t\t\t\t Total Deaths  :  {t_d}")
+    else:
+      print(f"\t\t\t\t Total case screened at the airport : {info_nums[0]} \n\t\t\t\t Total Cases ( Nationality : Indian )  :  {int(info_nums[1])} \n\t\t\t\t Total Cases ( Nationality : Foreigner )  :  {t_f} \n\t\t\t\t Total Cured/ Discharged/ Migrated  :  {t_c} \n\t\t\t\t Total Deaths  :  {t_d}")
     k = k + 1
     if k== 7:
       notifyMe(ntitle, nmessage)
