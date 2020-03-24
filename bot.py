@@ -29,7 +29,7 @@ if __name__ == "__main__":
     soup = BeautifulSoup(content, 'html.parser')
     # header
     all_tables = soup.findAll('tbody')
-    table = all_tables[1]
+    table = all_tables[7]
     all_rows = table.findAll('tr')
     # print(all_rows)
     temp_str = ""
